@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.28.1/dist/apexcharts.min.css" />
+  <title></title>
+</head>
+
+<body>
+  <link rel="stylesheet" href="./index.css">
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="bar-ChartReport"></canvas>
+        <div id="chart"></div>
+
+      </div>
+    </div>
+    
+  <script>
+    const chartOptions = {
+      chart: {
+        height: 350,
+        type: 'line',
+        stacked: false,
+        width:930,
+        events: {
+          // Create a hover event to show a horizontal dotted line at the cursor position
+          mouseMove: function (event, chartContext, config) {
+            const yAxis = chartContext.ctx.chart.scales.y;
+            const xPos = event.clientX - chartContext.el.getBoundingClientRect().left;
+            if (xPos > yAxis.left && xPos < yAxis.right) {
+              const yPos = yAxis.bottom - ((yAxis.bottom - yAxis.top) * (config.seriesIndex + 1) / (chartContext.ctx.series.length + 1));
+              chartContext.ctx.svg.querySelector('.hover-line').setAttribute('x1', yAxis.left);
+              chartContext.ctx.svg.querySelector('.hover-line').setAttribute('x2', yAxis.right);
+              chartContext.ctx.svg.querySelector('.hover-line').setAttribute('y1', yPos);
+              chartContext.ctx.svg.querySelector('.hover-line').setAttribute('y2', yPos);
+            }
+          },
+          // Create a mouse leave event to hide the horizontal dotted line
+          mouseLeave: function (event, chartContext, config) {
+            chartContext.ctx.svg.querySelector('.hover-line').setAttribute('x1', 0);
+            chartContext.ctx.svg.querySelector('.hover-line').setAttribute('x2', 0);
+            chartContext.ctx.svg.querySelector('.hover-line').setAttribute('y1', 0);
+            chartContext.ctx.svg.querySelector('.hover-line').setAttribute('y2', 0);
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Average Time',
+          type: 'line',
+          data: [180, 253, 350, 380, 420, 480]
+        },
+        {
+          name: 'Discharge By Interval',
+          type: 'bar',
+          data: [180, 253, 350, 380, 420, 480]
+        }
+      ],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: [1, 4]
+      },
+      title: {
+        text: 'Combined Line and Bar Graph',
+        align: 'center'
+      },
+      xaxis: {
+        categories: ['12AM-06AM', '06AM-08AM', '08AM-10AM', '10AM-12PM', '12PM-02PM', '02PM-04PM', '04PM-06PM', '06PM-08PM', '08PM-10PM', '10PM-12AM']
+      },
+      // Add a horizontal dotted line element to the chart
+      annotations: {
+        yaxis: [
+          {
+            y: 0,
+            borderColor: '#999',
+            borderWidth: 1,
+            label: {
+              borderColor: '#999',
+              style: {
+                color: '#fff',
+                background: '#999'
+              },
+              text: 'Value'
+            }
+          }
+        ],
+        xaxis: [
+          {
+            borderColor: '#999',
+            borderWidth: 1,
+          }
+        ],
+   
+        points: [
+          {
+            x: 0,
+            y: 0,
+            yAxisIndex: 0,
+            strokeDashArray: 3,
+            borderColor: '#999',
+            borderWidth: 1,
+            label: {
+              borderColor: '#999',
+              style: {
+                color: '#fff',
+                background: '#999'
+              },
+              text: 'Value at Cursor'
+            },
+            id: 'hover-line'
+          }
+        ]
+      },
+      // Customize the chart colors and layout
+      colors: ['#008FFB', '#FF4560'],
+      fill: {
+        opacity: [0.85, 0.25],
+        gradient: {
+          inverseColors: false,
+          shade: 'light',
+          type: 'vertical',
+          opacityFrom: 0.85,
+          opacityTo: 0.55,
+          stops: [0, 100]
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: -10
+      }
+    }
+
+    const chart = new ApexCharts(document.querySelector('#chart'), chartOptions)
+
+    chart.render()
+  </script>
+
+</body>
+
+</html>

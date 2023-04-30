@@ -1,0 +1,41 @@
+*{
+    padding:0;
+    margin:0;
+    font-family: sans-serif;
+
+}
+
+.chart{
+    margin:170px auto;
+    width:800px;
+    height:500px;
+}
+.chartCard {
+    width: 100vw;
+    height: calc(100vh - 1px);
+    background: rgb(241, 235, 235);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+ 
+  .chartBox {
+    width: 950px;
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+  }
+  @media(max-width:420px){
+    .chartCard{
+      width:fit-content;
+    }
+  }
+  @media only screen and (max-width: 480px) {
+    .chartCard{
+      width:fit-content;
+    }  }
+  @media only screen and (max-width: 768px) {
+    .chartCard{
+      width:fit-content;
+    }
+    }
